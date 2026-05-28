@@ -231,3 +231,11 @@ body {
   margin: 2rem 0 1rem;
   color: #2d5a2d;
 }
+/* Required background image class */
+.background-image {
+  background-image: url("https://images.unsplash.com/photo-1466692476868-aef1dfb1e0f3?w=1200");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}

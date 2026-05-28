@@ -1,14 +1,12 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import CartItem from './CartItem';
 
 function Cart() {
-  const cartItems = useSelector(state => state.cart.items);
+  const { items, totalAmount } = useSelector(state => state.cart);
   const navigate = useNavigate();
 
-  const totalCost = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-  if (cartItems.length === 0) {
+  if (items.length === 0) {
     return (
       <div className="cart-container">
         <div className="empty-cart">
@@ -22,15 +20,13 @@ function Cart() {
   return (
     <div className="cart-container">
       <h2>Shopping Cart</h2>
-      {cartItems.map(item => (
-        <CartItem key={item.id} item={item} />
-      ))}
+      {items.map(item => <CartItem key={item.id} item={item} />)}
       <div className="cart-total">
-        Total: ${totalCost}
+        <h3>Total Cart Amount: ${totalAmount}</h3>
       </div>
       <div className="cart-actions">
         <button onClick={() => navigate('/products')}>Continue Shopping</button>
-        <button onClick={() => alert('Proceeding to checkout!')}>Checkout</button>
+        <button onClick={() => alert('Proceeding to checkout! Total: $' + totalAmount)}>Checkout</button>
       </div>
     </div>
   );

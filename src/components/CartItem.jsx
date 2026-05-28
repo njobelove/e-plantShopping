@@ -1,9 +1,18 @@
 import { useDispatch } from 'react-redux';
-import { increaseQuantity, decreaseQuantity, removeFromCart } from '../store/CartSlice';
+import { updateQuantity, removeItem } from '../store/CartSlice';
 
 function CartItem({ item }) {
   const dispatch = useDispatch();
   const itemTotal = item.price * item.quantity;
+
+  const handleQuantityChange = (e) => {
+    const newQuantity = parseInt(e.target.value);
+    dispatch(updateQuantity({ id: item.id, quantity: newQuantity }));
+  };
+
+  const handleRemove = () => {
+    dispatch(removeItem(item.id));
+  };
 
   return (
     <div className="cart-item">
@@ -11,14 +20,11 @@ function CartItem({ item }) {
       <h3>{item.name}</h3>
       <div>Unit: ${item.price}</div>
       <div>
-        <div className="quantity-controls">
-          <button onClick={() => dispatch(decreaseQuantity(item.id))}>-</button>
-          <span>{item.quantity}</span>
-          <button onClick={() => dispatch(increaseQuantity(item.id))}>+</button>
-        </div>
+        <label>Quantity: </label>
+        <input type="number" min="0" value={item.quantity} onChange={handleQuantityChange} style={{ width: '60px', margin: '0 10px' }} />
       </div>
       <div><strong>Total: ${itemTotal}</strong></div>
-      <button onClick={() => dispatch(removeFromCart(item.id))}>Delete 🗑️</button>
+      <button onClick={handleRemove}>Delete 🗑️</button>
     </div>
   );
 }
